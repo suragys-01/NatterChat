@@ -1,0 +1,33 @@
+version: '3'
+services:
+  frontend:
+    build: client
+    ports:
+      - "5173:5173"
+    networks:
+      - mern
+  backend:
+    build: server
+    ports:
+      - "8747:8747"
+    networks:
+      - mern
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - mern
+    volumes:
+      - mongo-data:/data/db
+
+networks:
+  mern:
+    driver: bridge 
+
+volumes:
+  mongo-data:
+    driver: local
